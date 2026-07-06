@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPMT Frameworks and Terms: A Study Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* University of Essex brand palette */
+    --violet:#622567;
+    --scarlet:#CD202C;
+    --ink:#111111;
+    --ink-soft:#333333;      /* Essex dark grey */
+    --paper:#f4f2f4;         /* soft violet-tinted neutral */
+    --card:#ffffff;
+    --line:#e0dae1;
+    --main:#622567;          /* violet: main frameworks */
+    --main-bg:#ede4ef;
+    --other:#333333;         /* dark grey: other */
+    --other-bg:#e9e9ea;
+    --mma:#622567;           /* violet */
+    --mma-bg:#ede4ef;
+    --ema:#b31b26;           /* accessible scarlet */
+    --ema-bg:#fbe4e2;
+    --both:#333333;
+    --both-bg:#e9e9ea;
+    --focus:#622567;
+    --shadow:0 1px 2px rgba(17,17,17,.06),0 4px 14px rgba(17,17,17,.06);
+    --sans:Archivo,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.5;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:2.4rem 1.25rem 4rem}
+  header.masthead{
+    border-bottom:none;
+    padding:1.6rem 1.5rem;margin-bottom:1.8rem;border-radius:4px;
+    background:linear-gradient(120deg,var(--violet) 0%,var(--scarlet) 100%);
+    color:#fff;
+  }
+  .eyebrow{
+    font-family:var(--sans);
+    font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+    color:rgba(255,255,255,.85);margin:0 0 .5rem;
+  }
+  h1{
+    font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.08;margin:0 0 .6rem;
+    font-weight:600;letter-spacing:-.01em;
+  }
+  .lede{
+    font-size:1.05rem;color:rgba(255,255,255,.92);max-width:62ch;margin:0;
+  }
+  .how{
+    font-family:var(--sans);
+    font-size:.85rem;color:var(--ink-soft);
+    background:var(--card);border:1px solid var(--line);border-radius:4px;
+    padding:.9rem 1.1rem;margin:0 0 1.6rem;box-shadow:var(--shadow);
+  }
+  .how strong{color:var(--ink)}
+  .legend{display:flex;flex-wrap:wrap;gap:.5rem .9rem;margin:.7rem 0 0;align-items:center}
+  .chip{
+    font-family:var(--sans);
+    font-size:.72rem;font-weight:600;letter-spacing:.03em;
+    padding:.2rem .6rem;border-radius:999px;display:inline-block;white-space:nowrap;
+  }
+  .chip-main{background:var(--main-bg);color:var(--main)}
+  .chip-other{background:var(--other-bg);color:var(--other)}
+  .chip-mma{background:var(--mma-bg);color:var(--mma)}
+  .chip-ema{background:var(--ema-bg);color:var(--ema)}
+  .chip-both{background:var(--both-bg);color:var(--both)}
+
+  /* controls */
+  .controls{
+    position:sticky;top:0;z-index:5;background:var(--paper);
+    padding:1rem 0 .8rem;margin-bottom:.4rem;border-bottom:1px solid var(--line);
+  }
+  .search-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+  .search-box{position:relative;flex:1 1 260px;min-width:220px}
+  .search-box input{
+    width:100%;font-family:var(--sans);font-size:1rem;
+    padding:.7rem .9rem .7rem 2.3rem;border:1.5px solid var(--line);border-radius:4px;
+    background:var(--card);color:var(--ink);
+  }
+  .search-box svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);opacity:.5}
+  .search-box input:focus{outline:3px solid var(--focus);outline-offset:1px;border-color:var(--focus)}
+  .filters{display:flex;gap:.4rem;flex-wrap:wrap;font-family:var(--sans)}
+  .filters button{
+    font-size:.8rem;font-weight:600;letter-spacing:.02em;cursor:pointer;
+    padding:.5rem .85rem;border:1.5px solid var(--line);border-radius:999px;
+    background:var(--card);color:var(--ink-soft);transition:all .12s ease;
+  }
+  .filters button:hover{border-color:var(--ink-soft)}
+  .filters button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .filters button:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+  .count{
+    font-family:var(--sans);font-size:.8rem;color:var(--ink-soft);
+    margin:.7rem 0 0;
+  }
+
+  /* cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;margin-top:1.1rem}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:4px;
+    padding:1.15rem 1.2rem 1.25rem;box-shadow:var(--shadow);
+    border-left:5px solid var(--other);display:flex;flex-direction:column;gap:.55rem;
+  }
+  .card.is-main{border-left-color:var(--main)}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem}
+  .term{font-size:1.12rem;font-weight:600;line-height:1.2;margin:0}
+  .unit{
+    font-family:var(--sans);font-size:.7rem;font-weight:700;
+    letter-spacing:.05em;color:var(--ink-soft);background:var(--paper);
+    border:1px solid var(--line);border-radius:6px;padding:.2rem .45rem;white-space:nowrap;flex-shrink:0;
+  }
+  .badges{display:flex;flex-wrap:wrap;gap:.4rem}
+  .gloss{margin:.1rem 0 0;font-size:.96rem}
+  .use{
+    margin:0;font-size:.9rem;color:var(--ink-soft);
+    border-top:1px dashed var(--line);padding-top:.6rem;
+  }
+  .use b{
+    font-family:var(--sans);font-size:.68rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink);display:block;margin-bottom:.2rem;font-weight:700;
+  }
+  .empty{
+    text-align:center;color:var(--ink-soft);font-size:1rem;padding:3rem 1rem;
+    font-family:var(--sans);
+  }
+  mark{background:#f3d311;color:#111;font-weight:600;padding:0 .05em;border-radius:2px}
+  footer{
+    margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--line);
+    font-family:var(--sans);font-size:.8rem;color:var(--ink-soft);
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+  .visually-hidden{
+    position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Digital Production Methods in Teaching &middot; Study Reference</p>
+    <h1>Frameworks &amp; Terms</h1>
+    <p class="lede">Every named framework, model, and key term in the module, in one place. Each entry tells you what it is, how to use it, which unit it appears in, and whether it is one of the main frameworks to prioritise.</p>
+  </header>
+
+  <div class="how">
+    <strong>How to use this reference.</strong> You will meet many frameworks across the module, more than anyone could study in depth. The ones marked <span class="chip chip-main">Main</span> do real work in your assignments, so give them your attention. Those marked <span class="chip chip-other">Other</span> are useful context: know they exist, understand roughly what they are for, and go deeper only where your interest or your work takes you. Where a term feeds a specific assignment, that is flagged too.
+    <div class="legend">
+      <span class="chip chip-main">Main framework</span>
+      <span class="chip chip-other">Other / context</span>
+      <span class="chip chip-mma">MMA</span>
+      <span class="chip chip-ema">EMA</span>
+      <span class="chip chip-both">Both</span>
+    </div>
+  </div>
+
+
+  <div class="controls">
+    <div class="search-row">
+      <div class="search-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="search" placeholder="Search terms, e.g. SAMR, presence, equity&hellip;" aria-label="Search frameworks and terms">
+      </div>
+      <div class="filters" role="group" aria-label="Filter by category">
+        <button data-filter="all" aria-pressed="true">All</button>
+        <button data-filter="main" aria-pressed="false">Main only</button>
+        <button data-filter="other" aria-pressed="false">Other only</button>
+        <button data-filter="MMA" aria-pressed="false">MMA</button>
+        <button data-filter="EMA" aria-pressed="false">EMA</button>
+      </div>
+    </div>
+    <p class="count" id="count" aria-live="polite"></p>
+  </div>
+
+  <h2 class="visually-hidden" id="results-heading">Search results</h2>
+  <div class="grid" id="grid" role="region" aria-labelledby="results-heading"></div>
+  <p class="empty" id="empty" hidden>No terms match your search. Try a different word or clear the filters.</p>
+
+  <footer>
+    <p>A study aid for your own use. The single most important idea across every term here: pedagogy comes before technology. Use these frameworks to justify your choices, not to decorate them.</p>
+  </footer>
+</div>
+
+<script>
+// DPMT module glossary data
+// tier: "main" | "other"
+// assignment: "MMA" | "EMA" | "Both" | "" (blank = general background, no direct assignment link)
+const TERMS = [
+  {
+    term: "Pedagogy before technology",
+    unit: 1,
+    tier: "main",
+    assignment: "Both",
+    gloss: "The principle that teaching and learning goals come first, and the digital tool is chosen because it serves them. Captured in the phrase 'good teaching is good teaching'.",
+    use: "The core stance of the whole module. Use it to justify every artefact choice: start from the learning, then pick the tool. Both assignments reward this reasoning."
+  },
+  {
+    term: "Equity",
+    unit: 1,
+    tier: "main",
+    assignment: "Both",
+    gloss: "Designing so that learners in very different circumstances, including those with limited devices, connectivity, or confidence, can all take part.",
+    use: "A thread running through the module. Use it to check that your artefacts include rather than exclude your real, varied learners. Directly assessed in the MMA's inclusivity requirement."
+  },
+  {
+    term: "The Digital Divide (three levels)",
+    unit: 1,
+    tier: "other",
+    assignment: "",
+    gloss: "A model of unequal access to technology across three levels: physical access to the internet, differences in skills and use, and the wider social benefits people gain from being online.",
+    use: "Useful context for why equity matters. You need awareness of it rather than deep mastery. A good backdrop when explaining learner needs in your rationale."
+  },
+  {
+    term: "JISC Digital Capability Framework",
+    unit: 1,
+    tier: "other",
+    assignment: "",
+    gloss: "A UK framework setting out six elements of digital capability, such as ICT proficiency, information and media literacy, and digital wellbeing.",
+    use: "Background reference for thinking about the digital skills learners and educators need. Worth knowing it exists; no need to memorise the six elements."
+  },
+  {
+    term: "Post-digital society",
+    unit: 1,
+    tier: "other",
+    assignment: "",
+    gloss: "The idea that digital technology is now so woven into daily life that the interesting questions are about inequality and use, rather than about novelty.",
+    use: "Contextual framing for Unit 1. Helps you situate why digital education inequality matters."
+  },
+  {
+    term: "Social capital theory (Bourdieu)",
+    unit: 2,
+    tier: "other",
+    assignment: "",
+    gloss: "The idea that social networks, including those built on social media, let people build and maintain relationships and resources, sometimes for individual gain.",
+    use: "Background theory for understanding why social media can support (or distort) learning communities. Explore if it interests you."
+  },
+  {
+    term: "The Five I's",
+    unit: 2,
+    tier: "main",
+    assignment: "Both",
+    gloss: "A design checklist of five qualities to build into digital artefacts: Interaction, Introspection, Innovation, Integration, and Information.",
+    use: "A practical checklist for designing and justifying artefacts. Introduced in Unit 2 and applied fully in Unit 7. Run each artefact against the five to strengthen both assignments."
+  },
+  {
+    term: "Web 1.0, 2.0 and 3.0",
+    unit: 2,
+    tier: "other",
+    assignment: "",
+    gloss: "Successive stages of the web: static pages (1.0), user participation (2.0), and user cooperation and co-creation (3.0), which is the module's focus.",
+    use: "Useful context for understanding where interactive, participatory tools sit. Awareness is enough; you will not be tested on the detail."
+  },
+  {
+    term: "Multimodal pedagogy",
+    unit: 2,
+    tier: "main",
+    assignment: "Both",
+    gloss: "An approach to teaching that combines different modes of communication, such as words, images, sound, and gesture, to support learning.",
+    use: "Core vocabulary the module is built around. Use it to explain why you combined particular modes in an artefact and how that supports learning."
+  },
+  {
+    term: "Multimodal literacy",
+    unit: 2,
+    tier: "main",
+    assignment: "EMA",
+    gloss: "An awareness of what different modes of communication can and cannot do, how they work together to make meaning, and how the medium shapes the message.",
+    use: "You are asked to reflect on your own developing multimodal literacy in the EMA. Use it to frame your reflection on your artefact choices."
+  },
+  {
+    term: "Pedagogy of care",
+    unit: 2,
+    tier: "main",
+    assignment: "Both",
+    gloss: "An approach that prioritises empathy and learner development in a nurturing, supportive, and equitable environment.",
+    use: "A recurring thread. Use it to show your artefacts support and include learners, not just deliver content. Strengthens the inclusivity argument in both assignments."
+  },
+  {
+    term: "Entangled pedagogies",
+    unit: 2,
+    tier: "other",
+    assignment: "",
+    gloss: "The idea that technology, teaching, and the learning environment are deeply interconnected and shape one another.",
+    use: "A concept to appreciate rather than apply in detail. Useful if you want a more sophisticated framing of the technology-pedagogy relationship."
+  },
+  {
+    term: "Social presence",
+    unit: 2,
+    tier: "main",
+    assignment: "Both",
+    gloss: "The degree to which learners feel visible, connected, and real to one another in an online space.",
+    use: "A key idea for designing artefacts that build connection. Reappears in the Community of Inquiry framework (Units 7 and 9). Use it to justify interactive, community-building choices."
+  },
+  {
+    term: "Transactional distance",
+    unit: 2,
+    tier: "main",
+    assignment: "Both",
+    gloss: "The psychological and communication gap between teacher and learner online. Dialogue reduces it; rigid structure can increase it.",
+    use: "Use it to explain how an artefact narrows the gap between you and the learner, for example by opening dialogue. A strong justification tool for both assignments."
+  },
+  {
+    term: "The 3M Framework",
+    unit: 5,
+    tier: "other",
+    assignment: "",
+    gloss: "A framework organising distance education research into macro, meso, and micro levels, covering fifteen research areas.",
+    use: "Background structure for the field of distance education research. Awareness is enough; you will not apply it directly in your assignments."
+  },
+  {
+    term: "Digitalisation index (27 indicators)",
+    unit: 5,
+    tier: "other",
+    assignment: "",
+    gloss: "A way of measuring digital transformation across society, grouped into digital assets, digital usage, and digital labour.",
+    use: "Context for understanding the wider world your learners come from. Useful background rather than an assignment tool."
+  },
+  {
+    term: "Open Educational Resources (OER)",
+    unit: 5,
+    tier: "other",
+    assignment: "",
+    gloss: "Freely available digital learning materials, such as MOOCs, OpenCourseWare, open textbooks (Pressbooks, Manifold), wikis, and repositories like Merlot.",
+    use: "Good to know as sources and examples of digital artefacts, and relevant to ethics and access. You may draw on them, but you do not need to memorise the full list."
+  },
+  {
+    term: "Palloff and Pratt's concerns of online education",
+    unit: 6,
+    tier: "other",
+    assignment: "",
+    gloss: "A table of common concerns in online course design, covering technology, governance, intellectual property, training, workload, and regulation.",
+    use: "Helpful when thinking through the practical realities around your lesson. Dip into the relevant rows rather than learning all of them."
+  },
+  {
+    term: "Bloom's digital taxonomy",
+    unit: 7,
+    tier: "main",
+    assignment: "Both",
+    gloss: "An updated version of Bloom's taxonomy (remembering to creating) that adds digital actions and pulls out collaborating as a distinct element, covering things like moderating, commenting, and video conferencing.",
+    use: "A familiar anchor for designing learning at the right cognitive level and transforming it to digital. Use it to justify what an artefact asks learners to do."
+  },
+  {
+    term: "RAT framework",
+    unit: 7,
+    tier: "main",
+    assignment: "EMA",
+    gloss: "A lens for judging how technology is used: does it Replace, Amplify, or Transform existing teaching and learning?",
+    use: "A quick practical test when turning traditional teaching into digital artefacts. Use it to show whether each artefact genuinely adds value. Central to the EMA production task."
+  },
+  {
+    term: "SAMR framework",
+    unit: 7,
+    tier: "main",
+    assignment: "EMA",
+    gloss: "A model describing technology use as Substitution, Augmentation, Modification, or Redefinition, moving from small enhancements to genuine transformation.",
+    use: "Works alongside RAT to help you design and justify how far an artefact transforms learning. Directly supports the EMA."
+  },
+  {
+    term: "Authentic assessment",
+    unit: 7,
+    tier: "main",
+    assignment: "EMA",
+    gloss: "Assessment that mirrors real-world tasks and contexts, asking learners to apply knowledge meaningfully rather than simply recall it.",
+    use: "Important because one of your five EMA artefacts must be an assessment. This is the main place it is taught, so use it to design that artefact well."
+  },
+  {
+    term: "Community of Inquiry (CoI)",
+    unit: 7,
+    tier: "main",
+    assignment: "EMA",
+    gloss: "A framework describing the presences that make online learning work: teaching presence, social presence, and cognitive presence (with emotional presence added later).",
+    use: "The dominant framework for evaluating whether an artefact fosters engagement. Introduced in Unit 7, developed in Unit 9. Use its tables as a design and evaluation checklist for the EMA."
+  },
+  {
+    term: "Academic Communities of Engagement",
+    unit: 7,
+    tier: "other",
+    assignment: "",
+    gloss: "A framework adapting Community of Inquiry ideas to describe how personal and course communities support student engagement.",
+    use: "A related model to explore if you want more depth on engagement. Not required for the assignments."
+  },
+  {
+    term: "Cognitive Theory of Multimedia Learning",
+    unit: 7,
+    tier: "other",
+    assignment: "",
+    gloss: "A theory explaining how people process information presented as words and images together, often applied to game-based learning.",
+    use: "Optional depth for designing multimedia artefacts. Explore if it connects to your chosen artefacts."
+  },
+  {
+    term: "Design, delivery and assessment frameworks (7Cs, Five-Star, QRF, etc.)",
+    unit: 7,
+    tier: "other",
+    assignment: "",
+    gloss: "A set of named frameworks for guiding online course design, delivery, and quality, such as the 7Cs of Learning Design and the Quality Reference Framework.",
+    use: "A menu to be aware of. Pick one only if it genuinely helps you structure or justify your design; you are not expected to know them all."
+  },
+  {
+    term: "Constructive alignment",
+    unit: 7,
+    tier: "main",
+    assignment: "Both",
+    gloss: "The principle that a lesson's aim, learning outcomes, activities, artefacts, and assessment should all connect and support one another.",
+    use: "Built into both assignment templates. Use it as your structural backbone so every part of your lesson pulls in the same direction."
+  },
+  {
+    term: "Communities of Practice (CoP)",
+    unit: 9,
+    tier: "main",
+    assignment: "EMA",
+    gloss: "Groups of people who deepen their knowledge and skill by interacting regularly around a shared area of practice.",
+    use: "Pairs with CoI when designing artefacts that build learning communities. Useful for justifying collaborative artefacts and reflecting on them in the EMA."
+  },
+  {
+    term: "Teaching, social, cognitive and emotional presence",
+    unit: 9,
+    tier: "main",
+    assignment: "EMA",
+    gloss: "The four presences at the heart of the Community of Inquiry framework, describing how instruction, connection, thinking, and emotion show up in online learning.",
+    use: "Use these four as an evaluation lens for your own and peers' artefacts, and as a vocabulary for the EMA evaluation and reflection."
+  },
+  {
+    term: "Cognitive load theory",
+    unit: 9,
+    tier: "other",
+    assignment: "",
+    gloss: "The idea that working memory is limited, so learning materials should avoid overloading it, for example by breaking content into smaller, interactive chunks.",
+    use: "A useful principle when designing artefacts (keep them focused and digestible). Apply the idea lightly; deep study is optional."
+  },
+  {
+    term: "Cleveland-Innes and Hawryluk model (2023)",
+    unit: 9,
+    tier: "other",
+    assignment: "EMA",
+    gloss: "A practical model with tables applying the four presences (teaching, social, cognitive, emotional) to concrete design indicators and actions.",
+    use: "The Chapter 77 tables work well as a hands-on checklist when designing artefacts. Handy for the EMA, though the underlying framework (CoI) is the essential part."
+  },
+  {
+    term: "McClure's model of group development",
+    unit: 9,
+    tier: "other",
+    assignment: "",
+    gloss: "A model of how online groups form and progress through stages, from establishing safety and unity toward effective collaboration (and how tension can disrupt this).",
+    use: "Background for understanding group dynamics in online communities. Awareness is enough for this module."
+  },
+  {
+    term: "Instructional design strategies for asynchronous learning",
+    unit: 9,
+    tier: "other",
+    assignment: "",
+    gloss: "Four practical stages for asynchronous teaching: orientation, presentation, measuring and assessment, and summary and closing.",
+    use: "A helpful structure when sequencing your artefacts across a lesson. Use loosely as a planning aid."
+  },
+  {
+    term: "Digital competence framework (DigComp)",
+    unit: 10,
+    tier: "other",
+    assignment: "",
+    gloss: "A framework of digital competencies (such as information literacy, communication, content creation, safety, and problem solving) for learners and educators.",
+    use: "Context for thinking about learner and designer capabilities. Awareness is enough; not applied directly in the assignments."
+  },
+  {
+    term: "Technology considerations and responsibilities (Yalcin)",
+    unit: 10,
+    tier: "other",
+    assignment: "",
+    gloss: "A breakdown of technology barriers (access, maintenance, location, mobile devices, supporting tools) and whose responsibility (state, institution, designer, instructor) it is to address them.",
+    use: "Reinforces that access is rarely the student's responsibility. Useful for the equity and ethics reasoning behind your designs."
+  },
+  {
+    term: "Media user typologies (MUT)",
+    unit: 10,
+    tier: "other",
+    assignment: "",
+    gloss: "Eight types of media user, from non-users and sporadics through to advanced users, describing how differently people engage with digital tools.",
+    use: "A reminder to design for a range of user types. Draw on the idea when considering your audience; no need to memorise all eight."
+  },
+  {
+    term: "Bio-ecological model of student engagement",
+    unit: 10,
+    tier: "other",
+    assignment: "",
+    gloss: "A model showing how learning design can facilitate engagement or trigger disengagement across behavioural, cognitive, affective, and social dimensions.",
+    use: "Useful framing for the idea that design (not just motivation) drives engagement. Helpful background for the EMA reflection."
+  },
+  {
+    term: "Engagement and disengagement indicators",
+    unit: 10,
+    tier: "other",
+    assignment: "",
+    gloss: "Signs of learner engagement or disengagement across behavioural, cognitive, affective, and social dimensions (for example procrastination, boredom, isolation).",
+    use: "You can share these with learners or use them to evaluate whether your artefacts hold attention. Draw on selectively."
+  },
+  {
+    term: "Ethics of AI in education",
+    unit: 11,
+    tier: "main",
+    assignment: "EMA",
+    gloss: "The responsible-use questions raised when AI is used to create or support learning: accuracy, accessibility, fairness, bias, and whose work or voice is involved.",
+    use: "A strong lens for the EMA reflection. Use it to reason through the trade-offs behind any AI-assisted or technology choice, rather than reaching for a single rule."
+  },
+  {
+    term: "Netiquette",
+    unit: 12,
+    tier: "other",
+    assignment: "",
+    gloss: "Expected standards of respectful behaviour and communication online, which instructors model and set for their groups.",
+    use: "Worth a mention when designing communication or community artefacts. Light-touch."
+  },
+  {
+    term: "Complexivism",
+    unit: 12,
+    tier: "other",
+    assignment: "",
+    gloss: "A paradigm of knowledge (beyond objective and subjective views) that sees knowledge as distributed, situated, complex, and emergent, residing in networks as well as in individual minds.",
+    use: "An advanced concept to explore for a richer view of online learning. Not required for the assignments."
+  },
+  {
+    term: "The 10 realms of freedom",
+    unit: 12,
+    tier: "other",
+    assignment: "",
+    gloss: "Ten areas (place, content, pace, method, relationship, technology, medium, time, delegation, disclosure) where online learners have more freedom than in a face-to-face classroom.",
+    use: "A thought-provoking checklist for designing artefacts that make the most of online learners' freedoms. Optional depth."
+  },
+  {
+    term: "The Multimodal Tutor",
+    unit: 12,
+    tier: "other",
+    assignment: "",
+    gloss: "An AI-based system that provides digital feedback and supports skills acquisition, linked to the challenges of multimodal learning analytics.",
+    use: "A forward-looking term to explore. Interesting for the ethics and AI thread, but not assessed."
+  },
+  {
+    term: "TPACK framework",
+    unit: 12,
+    tier: "other",
+    assignment: "",
+    gloss: "A framework describing the overlap of Technological, Pedagogical, and Content Knowledge that effective technology-using educators draw on.",
+    use: "A well-known model worth recognising. Useful for reflecting on your own blend of knowledge as a designer; explore further if it interests you."
+  },
+  {
+    term: "VOCAL framework",
+    unit: 12,
+    tier: "other",
+    assignment: "",
+    gloss: "An acronym describing the effective online instructor: Visible, Organised, Compassionate, Analytical, Leader by example.",
+    use: "A memorable summary of good online teaching qualities. Handy for reflection on your own practice."
+  }
+];
+
+</script>
+<script>
+  const grid = document.getElementById('grid');
+  const search = document.getElementById('search');
+  const countEl = document.getElementById('count');
+  const emptyEl = document.getElementById('empty');
+  const filterBtns = [...document.querySelectorAll('.filters button')];
+  let activeFilter = 'all';
+
+  const tierLabel = t => t === 'main' ? 'Main' : 'Other';
+  const asgChip = a => {
+    if(!a) return '';
+    const cls = a === 'MMA' ? 'chip-mma' : a === 'EMA' ? 'chip-ema' : 'chip-both';
+    return `<span class="chip ${cls}">${a}</span>`;
+  };
+
+  function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+
+  function highlight(text, q){
+    const safe = esc(text);
+    if(!q) return safe;
+    const re = new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig');
+    return safe.replace(re,'<mark>$1</mark>');
+  }
+
+  function render(){
+    const q = search.value.trim();
+    const ql = q.toLowerCase();
+    let shown = 0;
+    grid.innerHTML = '';
+
+    TERMS.slice().sort((a,b)=>{
+      // main first, then by unit, then alpha
+      if(a.tier !== b.tier) return a.tier === 'main' ? -1 : 1;
+      if(a.unit !== b.unit) return a.unit - b.unit;
+      return a.term.localeCompare(b.term);
+    }).forEach(item => {
+      // filter
+      if(activeFilter === 'main' && item.tier !== 'main') return;
+      if(activeFilter === 'other' && item.tier !== 'other') return;
+      if(activeFilter === 'MMA' && !(item.assignment === 'MMA' || item.assignment === 'Both')) return;
+      if(activeFilter === 'EMA' && !(item.assignment === 'EMA' || item.assignment === 'Both')) return;
+      // search
+      if(ql){
+        const hay = (item.term+' '+item.gloss+' '+item.use).toLowerCase();
+        if(!hay.includes(ql)) return;
+      }
+      shown++;
+      const card = document.createElement('article');
+      card.className = 'card' + (item.tier === 'main' ? ' is-main' : '');
+      card.innerHTML = `
+        <div class="card-top">
+          <h2 class="term">${highlight(item.term, q)}</h2>
+          <span class="unit">Unit ${item.unit}</span>
+        </div>
+        <div class="badges">
+          <span class="chip chip-${item.tier}">${tierLabel(item.tier)}</span>
+          ${asgChip(item.assignment)}
+        </div>
+        <p class="gloss">${highlight(item.gloss, q)}</p>
+        <p class="use"><b>Why it matters / how to use it</b>${highlight(item.use, q)}</p>
+      `;
+      grid.appendChild(card);
+    });
+
+    emptyEl.hidden = shown !== 0;
+    const mainCount = TERMS.filter(t=>t.tier==='main').length;
+    countEl.innerHTML = (q || activeFilter !== 'all')
+      ? `Showing ${shown} of ${TERMS.length} terms`
+      : `${TERMS.length} terms in total &middot; ${mainCount} main frameworks to prioritise`;
+  }
+
+  search.addEventListener('input', render);
+  filterBtns.forEach(btn => btn.addEventListener('click', () => {
+    activeFilter = btn.dataset.filter;
+    filterBtns.forEach(b => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
+    render();
+  }));
+
+  render();
+</script>
+</body>
+</html>
