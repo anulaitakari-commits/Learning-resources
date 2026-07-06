@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Counts as a Digital Artefact?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* University of Essex brand palette */
+    --violet:#622567;
+    --scarlet:#CD202C;
+    --ink:#111111;
+    --ink-soft:#333333;
+    --paper:#f4f2f4;
+    --card:#ffffff;
+    --line:#e0dae1;
+    --yes:#622567;           /* violet */
+    --yes-bg:#ede4ef;
+    --maybe:#0065BD;         /* Essex cornflower */
+    --maybe-bg:#e0edf7;
+    --no:#b31b26;            /* accessible scarlet */
+    --no-bg:#fbe4e2;
+    --accent:#622567;
+    --focus:#622567;
+    --shadow:0 1px 2px rgba(17,17,17,.06),0 4px 14px rgba(17,17,17,.06);
+    --sans:Archivo,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.55}
+  .wrap{max-width:960px;margin:0 auto;padding:2.4rem 1.25rem 4rem}
+  .visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+  header.masthead{
+    border-bottom:none;padding:1.6rem 1.5rem;margin-bottom:1.8rem;border-radius:4px;
+    background:linear-gradient(120deg,var(--violet) 0%,var(--scarlet) 100%);color:#fff;
+  }
+  .eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.85);margin:0 0 .5rem}
+  h1{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.08;margin:0 0 .6rem;font-weight:700;letter-spacing:-.01em}
+  .lede{font-size:1.08rem;color:rgba(255,255,255,.92);max-width:64ch;margin:0}
+
+  section{margin-bottom:2.4rem}
+  h2{font-size:1.35rem;margin:0 0 .9rem;font-weight:700;letter-spacing:-.01em}
+  h2 .num{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:.5rem}
+  p.body{max-width:66ch;margin:0 0 1rem}
+
+  /* definition block */
+  .def{
+    background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:4px;padding:1.3rem 1.4rem;box-shadow:var(--shadow);
+  }
+  .def p{margin:0 0 .7rem;font-size:1.05rem}
+  .def p:last-child{margin-bottom:0}
+  .def .src{font-size:.85rem;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:.7rem;margin-top:.8rem}
+
+  /* boundary test */
+  .test{display:grid;gap:.8rem;margin-top:1rem}
+  .test-step{
+    background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1rem 1.15rem;
+    box-shadow:var(--shadow);display:flex;gap:.9rem;align-items:flex-start;
+  }
+  .test-step .q{
+    font-weight:700;font-size:1.4rem;line-height:1;color:var(--accent);
+    background:var(--yes-bg);border-radius:8px;min-width:2.1rem;height:2.1rem;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .test-step h3{margin:.1rem 0 .3rem;font-size:1.02rem}
+  .test-step p{margin:0;font-size:.92rem;color:var(--ink-soft)}
+  .verdict{
+    margin-top:.8rem;font-size:.95rem;background:var(--yes-bg);color:var(--yes);
+    border-radius:4px;padding:.9rem 1.1rem;font-weight:600;
+  }
+
+  /* search + filter */
+  .controls{position:sticky;top:0;z-index:5;background:var(--paper);padding:.9rem 0 .7rem;margin-bottom:.3rem;border-bottom:1px solid var(--line)}
+  .search-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+  .search-box{position:relative;flex:1 1 260px;min-width:220px}
+  .search-box input{width:100%;font-family:var(--sans);font-size:1rem;padding:.7rem .9rem .7rem 2.3rem;border:1.5px solid var(--line);border-radius:4px;background:var(--card);color:var(--ink)}
+  .search-box svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);opacity:.5}
+  .search-box input:focus{outline:3px solid var(--focus);outline-offset:1px;border-color:var(--focus)}
+  .filters{display:flex;gap:.4rem;flex-wrap:wrap}
+  .filters button{font-size:.8rem;font-weight:600;letter-spacing:.02em;cursor:pointer;padding:.5rem .85rem;border:1.5px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink-soft);transition:all .12s ease}
+  .filters button:hover{border-color:var(--ink-soft)}
+  .filters button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .filters button:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+  .count{font-size:.8rem;color:var(--ink-soft);margin:.7rem 0 0}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.85rem;margin-top:1rem}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1rem 1.1rem;box-shadow:var(--shadow);border-left:4px solid var(--line);display:flex;flex-direction:column;gap:.4rem}
+  .item.v-yes{border-left-color:var(--yes)}
+  .item.v-maybe{border-left-color:var(--maybe)}
+  .item.v-no{border-left-color:var(--no)}
+  .item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem}
+  .item h3{margin:0;font-size:1.05rem;font-weight:700;line-height:1.2}
+  .tag{font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:.22rem .55rem;border-radius:999px;white-space:nowrap;flex-shrink:0}
+  .tag-yes{background:var(--yes-bg);color:var(--yes)}
+  .tag-maybe{background:var(--maybe-bg);color:var(--maybe)}
+  .tag-no{background:var(--no-bg);color:var(--no)}
+  .item p{margin:0;font-size:.9rem;color:var(--ink-soft)}
+  .empty{text-align:center;color:var(--ink-soft);font-size:1rem;padding:2.5rem 1rem}
+  mark{background:#f3d311;color:#111;font-weight:600;padding:0 .05em;border-radius:2px}
+
+  footer{margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--line);font-size:.82rem;color:var(--ink-soft)}
+  footer a{color:var(--accent)}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Digital Production Methods in Teaching &middot; Study Reference</p>
+    <h1>What Counts as a Digital Artefact?</h1>
+    <p class="lede">A short, grounded answer to a question that comes up a lot, with a simple test you can apply to any borderline case, and searchable examples of what does and does not count.</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>The definition</h2>
+    <div class="def">
+      <p>In this module, a <strong>digital artefact</strong> is a purposefully designed digital learning product: something you build so that learners can engage with content, with each other, or with you, in a way that supports a clear learning goal.</p>
+      <p>The module frames these as learning products that apply <strong>multimodal pedagogy</strong> (combining modes such as words, images, sound, and interaction) and embody a <strong>pedagogy of care</strong> (inclusive, equitable, and supportive of the learner). Podcasts, videocasts, quizzes, and assessment artefacts are the module's own headline examples.</p>
+      <p class="src">Grounded in the module overview and Unit 2's framing of multimodal pedagogy, multimodal literacy, and the pedagogy of care, drawing on the Open University's <em>Innovating Pedagogy</em> reports and Palloff &amp; Pratt (2013).</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>The boundary test</h2>
+    <p class="body">When you are unsure whether something counts, ask these three questions in order. Something is a digital artefact in this module's sense when the answer to all three is yes.</p>
+    <div class="test">
+      <div class="test-step">
+        <span class="q" aria-hidden="true">1</span>
+        <div>
+          <h3>Is it digital?</h3>
+          <p>Created, delivered, or experienced through digital technology, whether a web tool, an app, a file, or an online space.</p>
+        </div>
+      </div>
+      <div class="test-step">
+        <span class="q" aria-hidden="true">2</span>
+        <div>
+          <h3>Is it designed for learning?</h3>
+          <p>Built with a specific learning purpose in mind, not simply a digital object that happens to exist. It carries or supports learning toward a goal.</p>
+        </div>
+      </div>
+      <div class="test-step">
+        <span class="q" aria-hidden="true">3</span>
+        <div>
+          <h3>Does pedagogy drive the design?</h3>
+          <p>The choices behind it are justified by teaching and learning principles. It applies multimodal thinking and cares for the learner's access and inclusion, rather than using technology for its own sake.</p>
+        </div>
+      </div>
+    </div>
+    <p class="verdict">Three yeses: it is a digital artefact you can design and justify. A no at step 2 or 3 usually means you have a digital <em>resource</em> or <em>file</em>, not a designed learning artefact. The gap between those two is exactly what this module asks you to close.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>Examples you can search</h2>
+    <p class="body">Every example below is drawn from the module's own units and assignment guidance. Use the search and filters to check a specific case. "Counts" meets all three tests; "Depends" can count when designed with learning intent; "Does not count on its own" fails the test as described until you redesign it.</p>
+
+    <div class="controls">
+      <div class="search-row">
+        <div class="search-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="search" id="search" placeholder="Search examples, e.g. podcast, quiz, PDF&hellip;" aria-label="Search examples of digital artefacts">
+        </div>
+        <div class="filters" role="group" aria-label="Filter examples by verdict">
+          <button data-filter="all" aria-pressed="true">All</button>
+          <button data-filter="yes" aria-pressed="false">Counts</button>
+          <button data-filter="maybe" aria-pressed="false">Depends</button>
+          <button data-filter="no" aria-pressed="false">Does not count alone</button>
+        </div>
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+    </div>
+
+    <h3 class="visually-hidden" id="results-heading">Example results</h3>
+    <div class="grid" id="grid" role="region" aria-labelledby="results-heading"></div>
+    <p class="empty" id="empty" hidden>No examples match your search. Try a different word or clear the filters.</p>
+  </section>
+
+  <footer>
+    <p>A study aid for your own use, and a companion to the module's Frameworks &amp; Terms reference. The test above is the same one your markers apply: an artefact earns its place through the learning it supports, not through being digital.</p>
+  </footer>
+</div>
+
+<script>
+const EXAMPLES = [
+  {name:"Podcast", verdict:"yes", note:"A module headline example. Designed audio that carries learning, applies mode (voice, pacing) and can be made accessible with transcripts."},
+  {name:"Videocast / video", verdict:"yes", note:"A module headline example. Combines visual and audio modes for a learning purpose; captions support access."},
+  {name:"Online quiz", verdict:"yes", note:"A module headline example, and a strong candidate for the required assessment artefact. Checks or builds learning with feedback."},
+  {name:"Assessment artefact", verdict:"yes", note:"Required in the EMA. Something like a Padlet task, forum debate, or multiple-choice assessment designed to evidence learning."},
+  {name:"Blog", verdict:"yes", note:"Named across Units 2, 6, and the MMA template. A designed space for reflection, exposition, or dialogue toward a learning goal."},
+  {name:"Vlog", verdict:"yes", note:"Named in Unit 2 and the MMA template. A video-log artefact combining personal voice with visual mode."},
+  {name:"Infographic", verdict:"yes", note:"Built with tools like Genially, Venngage, or Canva. Visual synthesis of information designed to aid understanding."},
+  {name:"Interactive Genially / Sway", verdict:"yes", note:"Interactive visuals and presentations that let learners produce and explore, fitting Web 3.0 participatory design."},
+  {name:"Simulation / gamified activity", verdict:"yes", note:"Named in Units 9 and 10 (e.g. Cesim). Learners build knowledge through interactive, experiential environments."},
+  {name:"Discussion forum / board", verdict:"yes", note:"A designed asynchronous space for dialogue that builds social and cognitive presence."},
+  {name:"Padlet / collaborative board", verdict:"yes", note:"Used in the module's own formative tasks. Collaborative, interactive, community-building when designed with intent."},
+  {name:"Screencast", verdict:"yes", note:"A recorded, edited screen-capture explanation designed to teach a process or concept."},
+  {name:"Interactive slides (Google Slides, Miro)", verdict:"yes", note:"Collaborative, open-for-a-week canvases designed for learner interaction, not just display."},
+  {name:"E-portfolio", verdict:"yes", note:"A gathered, shareable body of evidence designed for reflection and discussion."},
+  {name:"Wiki", verdict:"maybe", note:"Counts when designed as a collaborative learning space. As a public reference (e.g. Wikipedia) it is a resource, not your designed artefact; note the module's caution on credibility."},
+  {name:"Social media post / account", verdict:"maybe", note:"Counts when purposefully designed as an educational mode (Unit 2). Casual posting with no learning design does not."},
+  {name:"A section of an LMS/VLE", verdict:"maybe", note:"Named in the MMA template. Counts when you design the section pedagogically; simply having an LMS page does not."},
+  {name:"Video conference (Teams/Zoom) recording", verdict:"maybe", note:"Counts when structured and designed as reusable learning; an unedited meeting recording on its own does not."},
+  {name:"Open Educational Resource (MOOC, OpenCourseWare)", verdict:"maybe", note:"These are artefacts someone designed. Counts if you design or meaningfully adapt one; reusing one wholesale is using a resource, not creating an artefact."},
+  {name:"A PDF of lecture notes", verdict:"no", note:"Digital, but usually a file dump with no multimodal design or learning interaction. Redesign it (structure, media, activity) to make it an artefact."},
+  {name:"A plain uploaded document", verdict:"no", note:"Being digital is not enough. Without designed learning intent and pedagogy it fails steps 2 and 3 of the test."},
+  {name:"A link to a website", verdict:"no", note:"Pointing to content is not designing an artefact. What you build around or from it might be."},
+  {name:"A recorded lecture with no design", verdict:"no", note:"A single long recording tends to fail cognitive-load and multimodal thinking. Break it up and design interaction to make it an artefact."}
+];
+
+const grid=document.getElementById('grid');
+const search=document.getElementById('search');
+const countEl=document.getElementById('count');
+const emptyEl=document.getElementById('empty');
+const filterBtns=[...document.querySelectorAll('.filters button')];
+let activeFilter='all';
+const order={yes:0,maybe:1,no:2};
+const tagLabel={yes:"Counts",maybe:"Depends",no:"Does not count alone"};
+
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function hl(t,q){const s=esc(t);if(!q)return s;const re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig');return s.replace(re,'<mark>$1</mark>');}
+
+function render(){
+  const q=search.value.trim();const ql=q.toLowerCase();let shown=0;grid.innerHTML='';
+  EXAMPLES.slice().sort((a,b)=>order[a.verdict]-order[b.verdict]||a.name.localeCompare(b.name)).forEach(item=>{
+    if(activeFilter!=='all'&&item.verdict!==activeFilter)return;
+    if(ql){const hay=(item.name+' '+item.note).toLowerCase();if(!hay.includes(ql))return;}
+    shown++;
+    const el=document.createElement('article');
+    el.className='item v-'+item.verdict;
+    el.innerHTML=`<div class="item-top"><h3>${hl(item.name,q)}</h3><span class="tag tag-${item.verdict}">${tagLabel[item.verdict]}</span></div><p>${hl(item.note,q)}</p>`;
+    grid.appendChild(el);
+  });
+  emptyEl.hidden=shown!==0;
+  countEl.textContent=(q||activeFilter!=='all')?`Showing ${shown} of ${EXAMPLES.length} examples`:`${EXAMPLES.length} examples, drawn from the module's own units`;
+}
+search.addEventListener('input',render);
+filterBtns.forEach(b=>b.addEventListener('click',()=>{activeFilter=b.dataset.filter;filterBtns.forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));render();}));
+render();
+</script>
+</body>
+</html>
